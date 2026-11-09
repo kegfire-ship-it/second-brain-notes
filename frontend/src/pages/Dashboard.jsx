@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Plus, Tags, ArrowLeft, Trash2, RefreshCw, Filter, Check, FileText } from 'lucide-react';
+import { Plus, Tags, ArrowLeft, Trash2, RefreshCw, Filter, Check, FileText, Plug } from 'lucide-react';
 import { DndContext, closestCenter, KeyboardSensor, MouseSensor, TouchSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core';
 import { arrayMove, SortableContext, rectSortingStrategy, useSortable, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -8,6 +8,7 @@ import SwipeableNoteCard from '../components/SwipeableNoteCard';
 import NoteEditor from '../components/NoteEditor';
 import CategoriesModal from '../components/CategoriesModal';
 import ConfirmModal from '../components/ConfirmModal';
+import ConnectClaudeModal from '../components/ConnectClaudeModal';
 import Toast from '../components/Toast';
 import MasonryGrid from '../components/MasonryGrid';
 import useColumnCount from '../hooks/useColumnCount';
@@ -69,6 +70,7 @@ export default function Dashboard() {
     const [searchFallbackToastShown, setSearchFallbackToastShown] = useState(false);
     const [isEditorOpen, setIsEditorOpen] = useState(false);
     const [isCategoriesModalOpen, setIsCategoriesModalOpen] = useState(false);
+    const [isConnectClaudeOpen, setIsConnectClaudeOpen] = useState(false);
     const [editingNote, setEditingNote] = useState(null);
     const [confirmState, setConfirmState] = useState(null); // { title: '', message: '', onConfirm: () => {} }
     const [isTrashMode, setIsTrashMode] = useState(false);
@@ -765,6 +767,7 @@ export default function Dashboard() {
                   items: [
                     { label: 'Categories', Icon: Tags, onClick: () => setIsCategoriesModalOpen(true) },
                     { label: 'Trash', Icon: Trash2, onClick: () => { setIsTrashMode(true); fetchTrash(); } },
+                    { label: 'Connect to Claude', Icon: Plug, onClick: () => setIsConnectClaudeOpen(true) },
                   ],
                 }}
               >
@@ -1021,6 +1024,8 @@ export default function Dashboard() {
                     />
                 )
             }
+
+            {isConnectClaudeOpen && <ConnectClaudeModal onClose={() => setIsConnectClaudeOpen(false)} />}
 
             {/* Categories Modal */}
             {

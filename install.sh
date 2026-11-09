@@ -36,11 +36,7 @@ cat <<DONE
 All done. Your notes: $PUBLIC_URL
 Sign in with the password you just chose.
 
-To connect your notes to Claude Code, leave the server
-(type exit) and run this line on your own computer:
-
-claude mcp add --scope user --transport http second-brain $PUBLIC_URL/mcp/ --header "Authorization: Bearer $MCP_TOKEN"
-
-Don't show this line to anyone: it gives access to your notes.
+To connect your notes to Claude, open your notes, then the menu in the top right,
+and choose Connect to Claude.
 ====================================================
 DONE

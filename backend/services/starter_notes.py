@@ -19,7 +19,7 @@ _NOTES = [
 <p><strong>2. Get step-by-step instructions from a video.</strong> Open the note called "Try it: steps from a video".</p>
 <p><strong>3. Search by meaning.</strong> Type the word footwear in the search bar at the top and press Enter. You will also get the note about tying shoes, even though that word isn't written in it.</p>
 <p><strong>Your own links.</strong> Create a note and paste a YouTube link, and the same buttons appear. Instagram links work too if you added an Apify token during setup. Ordinary website links get a button that adds a short description, like this one: <a href="https://en.wikipedia.org/wiki/Zettelkasten">https://en.wikipedia.org/wiki/Zettelkasten</a></p>
-<p><strong>The menu</strong> in the top right has sorting, the light or dark theme, your categories and the trash.</p>
+<p><strong>The menu</strong> in the top right has sorting, the light or dark theme, your categories and the trash. There you'll also find <strong>Connect to Claude</strong>: it lets Claude find, summarize and save your notes for you.</p>
 """),
     ("Try it: main ideas from a video", "white", """
 <p>This note has a link to a video. Press <strong>Main ideas</strong> at the bottom of the note and wait a moment. The ideas will appear right here.</p>

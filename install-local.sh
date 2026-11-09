@@ -44,9 +44,8 @@ PLIST
 All done. Your notes: http://localhost:$PORT
 The app now starts by itself when you turn on your computer.
 
-To connect your notes to Claude Code, run:
-
-claude mcp add --scope user --transport http second-brain http://localhost:$PORT/mcp/ --header "Authorization: Bearer $MCP_TOKEN"
+To connect your notes to Claude, open your notes, then the menu in the top right,
+and choose Connect to Claude.
 DONE
 else
   echo; echo "Starting. Your notes: http://localhost:$PORT. Press Ctrl+C to stop."
