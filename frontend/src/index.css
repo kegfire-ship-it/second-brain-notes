@@ -1,0 +1,454 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Unbounded:wght@800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Dark theme = `.dark` on <html> (set by lib/theme.js), not the OS media query. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ===== Soft Friendly tokens — source of truth: docs/DESIGN_SYSTEM.md ===== */
+:root {
+  /* Surfaces */
+  --bg: #ffffff; --surface: #ffffff; --surface-soft: #f8fafc; --surface-cool: #fafafa; --inset: #f1f5f9;
+  /* Text */
+  --ink: #1f2933; --ink-2: #52606d; --ink-3: #8896a3;
+  /* Lines */
+  --line: #e8edf2; --line-2: #dde4ea; --line-3: #cfd8e0;
+  /* Accent (teal) */
+  --accent: #0d9488; --accent-600: #0f766e; --accent-50: #effaf7; --accent-100: #d6f3ec;
+  /* Danger (rose) */
+  --danger: #e11d48; --danger-700: #be123c; --danger-50: #fff1f3; --danger-100: #ffe1e7;
+  /* Category tints (chip bg / text / dot) */
+  --cat-ideas-bg:#fffbeb; --cat-ideas-tx:#92690b; --cat-ideas-dot:#f59e0b;
+  --cat-philo-bg:#ecfdf5; --cat-philo-tx:#0f766e; --cat-philo-dot:#10b981;
+  --cat-proj-bg:#eff6ff;  --cat-proj-tx:#1d4ed8;  --cat-proj-dot:#3b82f6;
+  --cat-health-bg:#fdf2f8;--cat-health-tx:#be185d;--cat-health-dot:#ec4899;
+  --cat-misc-bg:#f8fafc;  --cat-misc-tx:#52606d;  --cat-misc-dot:#94a3b8;
+  /* Priority */
+  --prio-1:#e11d48; --prio-2:#f59e0b; --prio-3:#3b82f6; --prio-4:#cfd8e0;
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+  --shadow-md: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-modal: 0 10px 40px rgba(15,23,42,.14);
+  --shadow-accent-lift: 0 6px 20px -8px rgba(13,148,136,.22);
+  --glow-accent: 0 4px 14px rgba(13,148,136,.28);
+  /* Radius base (shadcn derives sm/md/lg/xl) */
+  --radius: 0.75rem;
+  /* How much of a map-card pastel shows (MindmapCard). */
+  --thumb-mix: 100%;
+
+  /* shadcn semantic vars mapped to Soft Friendly */
+  --background: var(--bg);            --foreground: var(--ink);
+  --card: var(--surface);             --card-foreground: var(--ink);
+  --popover: var(--surface);          --popover-foreground: var(--ink);
+  --primary: var(--accent);           --primary-foreground: #ffffff;
+  --secondary: var(--surface-soft);   --secondary-foreground: var(--ink);
+  --muted: var(--surface-soft);       --muted-foreground: var(--ink-3);
+  --accent-bg: var(--surface-soft);   --accent-foreground: var(--ink);
+  --destructive: var(--danger);       --destructive-foreground: #ffffff;
+  --border: var(--line-2); --input: var(--line-2); --ring: var(--accent);
+}
+
+/* ===== Dark theme — same Soft Friendly language on cool graphite =====
+   Never warm/brown. One teal accent. Cards sit a step lighter than the page
+   (instead of the white-on-white + shadow of light mode); lines carry the
+   structure. Toggled by lib/theme.js (Меню → Тема). */
+.dark {
+  --bg: #0f1318; --surface: #161b22; --surface-soft: #1c222b; --surface-cool: #191e26; --inset: #222934;
+  --ink: #e6eaef; --ink-2: #a9b4c0; --ink-3: #76838f;
+  --line: #232a34; --line-2: #2c3440; --line-3: #3b4553;
+  --accent: #0d9488; --accent-600: #2dd4bf; --accent-50: #12292a; --accent-100: #17403d;
+  --danger: #e11d48; --danger-700: #fb7185; --danger-50: #2a141b; --danger-100: #3d1822;
+  --cat-ideas-bg:#2a2414; --cat-ideas-tx:#fcd34d; --cat-ideas-dot:#f59e0b;
+  --cat-philo-bg:#122a25; --cat-philo-tx:#5eead4; --cat-philo-dot:#10b981;
+  --cat-proj-bg:#152238;  --cat-proj-tx:#93c5fd;  --cat-proj-dot:#3b82f6;
+  --cat-health-bg:#2b1626;--cat-health-tx:#f9a8d4;--cat-health-dot:#ec4899;
+  --cat-misc-bg:#1c222b;  --cat-misc-tx:#a9b4c0;  --cat-misc-dot:#76838f;
+  --prio-4:#3b4553;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.35);
+  --shadow-md: 0 1px 3px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.3);
+  --shadow-modal: 0 16px 48px rgba(0,0,0,.55);
+  --shadow-accent-lift: 0 6px 20px -8px rgba(13,148,136,.35);
+  --glow-accent: 0 4px 14px rgba(13,148,136,.35);
+  --primary-foreground: #ffffff;
+  --thumb-mix: 22%;
+
+  /* Tailwind's pastel palette (note colors, map nodes, chips) → muted tints of
+     the same hue on the dark surface; deep -800/-900 text → light. Swatch and
+     dot shades (300–600) stay as they are. */
+  --color-red-50: color-mix(in oklab, var(--color-red-500) 11%, var(--surface));
+  --color-red-100: color-mix(in oklab, var(--color-red-500) 18%, var(--surface));
+  --color-red-200: color-mix(in oklab, var(--color-red-500) 28%, var(--surface));
+  --color-red-800: color-mix(in oklab, var(--color-red-300) 85%, white);
+  --color-red-900: color-mix(in oklab, var(--color-red-300) 60%, white);
+  --color-orange-50: color-mix(in oklab, var(--color-orange-500) 8%, var(--surface));
+  --color-orange-100: color-mix(in oklab, var(--color-orange-500) 18%, var(--surface));
+  --color-orange-200: color-mix(in oklab, var(--color-orange-500) 28%, var(--surface));
+  --color-orange-800: color-mix(in oklab, var(--color-orange-300) 85%, white);
+  --color-orange-900: color-mix(in oklab, var(--color-orange-300) 60%, white);
+  --color-amber-50: color-mix(in oklab, var(--color-amber-500) 8%, var(--surface));
+  --color-amber-100: color-mix(in oklab, var(--color-amber-500) 18%, var(--surface));
+  --color-amber-200: color-mix(in oklab, var(--color-amber-500) 28%, var(--surface));
+  --color-amber-800: color-mix(in oklab, var(--color-amber-300) 85%, white);
+  --color-amber-900: color-mix(in oklab, var(--color-amber-300) 60%, white);
+  --color-yellow-50: color-mix(in oklab, var(--color-yellow-500) 8%, var(--surface));
+  --color-yellow-100: color-mix(in oklab, var(--color-yellow-500) 18%, var(--surface));
+  --color-yellow-200: color-mix(in oklab, var(--color-yellow-500) 28%, var(--surface));
+  --color-yellow-800: color-mix(in oklab, var(--color-yellow-300) 85%, white);
+  --color-yellow-900: color-mix(in oklab, var(--color-yellow-300) 60%, white);
+  --color-lime-50: color-mix(in oklab, var(--color-lime-500) 8%, var(--surface));
+  --color-lime-100: color-mix(in oklab, var(--color-lime-500) 18%, var(--surface));
+  --color-lime-200: color-mix(in oklab, var(--color-lime-500) 28%, var(--surface));
+  --color-lime-800: color-mix(in oklab, var(--color-lime-300) 85%, white);
+  --color-lime-900: color-mix(in oklab, var(--color-lime-300) 60%, white);
+  --color-green-50: color-mix(in oklab, var(--color-green-500) 11%, var(--surface));
+  --color-green-100: color-mix(in oklab, var(--color-green-500) 18%, var(--surface));
+  --color-green-200: color-mix(in oklab, var(--color-green-500) 28%, var(--surface));
+  --color-green-800: color-mix(in oklab, var(--color-green-300) 85%, white);
+  --color-green-900: color-mix(in oklab, var(--color-green-300) 60%, white);
+  --color-emerald-50: color-mix(in oklab, var(--color-emerald-500) 11%, var(--surface));
+  --color-emerald-100: color-mix(in oklab, var(--color-emerald-500) 18%, var(--surface));
+  --color-emerald-200: color-mix(in oklab, var(--color-emerald-500) 28%, var(--surface));
+  --color-emerald-800: color-mix(in oklab, var(--color-emerald-300) 85%, white);
+  --color-emerald-900: color-mix(in oklab, var(--color-emerald-300) 60%, white);
+  --color-teal-50: color-mix(in oklab, var(--color-teal-500) 11%, var(--surface));
+  --color-teal-100: color-mix(in oklab, var(--color-teal-500) 18%, var(--surface));
+  --color-teal-200: color-mix(in oklab, var(--color-teal-500) 28%, var(--surface));
+  --color-teal-800: color-mix(in oklab, var(--color-teal-300) 85%, white);
+  --color-teal-900: color-mix(in oklab, var(--color-teal-300) 60%, white);
+  --color-cyan-50: color-mix(in oklab, var(--color-cyan-500) 11%, var(--surface));
+  --color-cyan-100: color-mix(in oklab, var(--color-cyan-500) 18%, var(--surface));
+  --color-cyan-200: color-mix(in oklab, var(--color-cyan-500) 28%, var(--surface));
+  --color-cyan-800: color-mix(in oklab, var(--color-cyan-300) 85%, white);
+  --color-cyan-900: color-mix(in oklab, var(--color-cyan-300) 60%, white);
+  --color-sky-50: color-mix(in oklab, var(--color-sky-500) 11%, var(--surface));
+  --color-sky-100: color-mix(in oklab, var(--color-sky-500) 18%, var(--surface));
+  --color-sky-200: color-mix(in oklab, var(--color-sky-500) 28%, var(--surface));
+  --color-sky-800: color-mix(in oklab, var(--color-sky-300) 85%, white);
+  --color-sky-900: color-mix(in oklab, var(--color-sky-300) 60%, white);
+  --color-blue-50: color-mix(in oklab, var(--color-blue-500) 11%, var(--surface));
+  --color-blue-100: color-mix(in oklab, var(--color-blue-500) 18%, var(--surface));
+  --color-blue-200: color-mix(in oklab, var(--color-blue-500) 28%, var(--surface));
+  --color-blue-800: color-mix(in oklab, var(--color-blue-300) 85%, white);
+  --color-blue-900: color-mix(in oklab, var(--color-blue-300) 60%, white);
+  --color-indigo-50: color-mix(in oklab, var(--color-indigo-500) 11%, var(--surface));
+  --color-indigo-100: color-mix(in oklab, var(--color-indigo-500) 18%, var(--surface));
+  --color-indigo-200: color-mix(in oklab, var(--color-indigo-500) 28%, var(--surface));
+  --color-indigo-800: color-mix(in oklab, var(--color-indigo-300) 85%, white);
+  --color-indigo-900: color-mix(in oklab, var(--color-indigo-300) 60%, white);
+  --color-violet-50: color-mix(in oklab, var(--color-violet-500) 11%, var(--surface));
+  --color-violet-100: color-mix(in oklab, var(--color-violet-500) 18%, var(--surface));
+  --color-violet-200: color-mix(in oklab, var(--color-violet-500) 28%, var(--surface));
+  --color-violet-800: color-mix(in oklab, var(--color-violet-300) 85%, white);
+  --color-violet-900: color-mix(in oklab, var(--color-violet-300) 60%, white);
+  --color-purple-50: color-mix(in oklab, var(--color-purple-500) 11%, var(--surface));
+  --color-purple-100: color-mix(in oklab, var(--color-purple-500) 18%, var(--surface));
+  --color-purple-200: color-mix(in oklab, var(--color-purple-500) 28%, var(--surface));
+  --color-purple-800: color-mix(in oklab, var(--color-purple-300) 85%, white);
+  --color-purple-900: color-mix(in oklab, var(--color-purple-300) 60%, white);
+  --color-fuchsia-50: color-mix(in oklab, var(--color-fuchsia-500) 11%, var(--surface));
+  --color-fuchsia-100: color-mix(in oklab, var(--color-fuchsia-500) 18%, var(--surface));
+  --color-fuchsia-200: color-mix(in oklab, var(--color-fuchsia-500) 28%, var(--surface));
+  --color-fuchsia-800: color-mix(in oklab, var(--color-fuchsia-300) 85%, white);
+  --color-fuchsia-900: color-mix(in oklab, var(--color-fuchsia-300) 60%, white);
+  --color-pink-50: color-mix(in oklab, var(--color-pink-500) 11%, var(--surface));
+  --color-pink-100: color-mix(in oklab, var(--color-pink-500) 18%, var(--surface));
+  --color-pink-200: color-mix(in oklab, var(--color-pink-500) 28%, var(--surface));
+  --color-pink-800: color-mix(in oklab, var(--color-pink-300) 85%, white);
+  --color-pink-900: color-mix(in oklab, var(--color-pink-300) 60%, white);
+  --color-rose-50: color-mix(in oklab, var(--color-rose-500) 11%, var(--surface));
+  --color-rose-100: color-mix(in oklab, var(--color-rose-500) 18%, var(--surface));
+  --color-rose-200: color-mix(in oklab, var(--color-rose-500) 28%, var(--surface));
+  --color-rose-800: color-mix(in oklab, var(--color-rose-300) 85%, white);
+  --color-rose-900: color-mix(in oklab, var(--color-rose-300) 60%, white);
+  --color-slate-50: color-mix(in oklab, var(--color-slate-500) 11%, var(--surface));
+  --color-slate-100: color-mix(in oklab, var(--color-slate-500) 18%, var(--surface));
+  --color-slate-200: color-mix(in oklab, var(--color-slate-500) 28%, var(--surface));
+  --color-slate-800: color-mix(in oklab, var(--color-slate-300) 85%, white);
+  --color-slate-900: color-mix(in oklab, var(--color-slate-300) 60%, white);
+  --color-gray-50: color-mix(in oklab, var(--color-gray-500) 11%, var(--surface));
+  --color-gray-100: color-mix(in oklab, var(--color-gray-500) 18%, var(--surface));
+  --color-gray-200: color-mix(in oklab, var(--color-gray-500) 28%, var(--surface));
+  --color-gray-800: color-mix(in oklab, var(--color-gray-300) 85%, white);
+  --color-gray-900: color-mix(in oklab, var(--color-gray-300) 60%, white);
+  --color-zinc-50: color-mix(in oklab, var(--color-zinc-500) 11%, var(--surface));
+  --color-zinc-100: color-mix(in oklab, var(--color-zinc-500) 18%, var(--surface));
+  --color-zinc-200: color-mix(in oklab, var(--color-zinc-500) 28%, var(--surface));
+  --color-zinc-800: color-mix(in oklab, var(--color-zinc-300) 85%, white);
+  --color-zinc-900: color-mix(in oklab, var(--color-zinc-300) 60%, white);
+  --color-neutral-50: color-mix(in oklab, var(--color-neutral-500) 11%, var(--surface));
+  --color-neutral-100: color-mix(in oklab, var(--color-neutral-500) 18%, var(--surface));
+  --color-neutral-200: color-mix(in oklab, var(--color-neutral-500) 28%, var(--surface));
+  --color-neutral-800: color-mix(in oklab, var(--color-neutral-300) 85%, white);
+  --color-neutral-900: color-mix(in oklab, var(--color-neutral-300) 60%, white);
+  --color-stone-50: color-mix(in oklab, var(--color-stone-500) 11%, var(--surface));
+  --color-stone-100: color-mix(in oklab, var(--color-stone-500) 18%, var(--surface));
+  --color-stone-200: color-mix(in oklab, var(--color-stone-500) 28%, var(--surface));
+  --color-stone-800: color-mix(in oklab, var(--color-stone-300) 85%, white);
+  --color-stone-900: color-mix(in oklab, var(--color-stone-300) 60%, white);
+}
+
+@theme inline {
+  --font-sans: "Manrope", -apple-system, system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-poster: "Unbounded", "Manrope", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* shadcn semantic colors */
+  --color-background: var(--background); --color-foreground: var(--foreground);
+  --color-card: var(--card); --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover); --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary); --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary); --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted); --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent-bg); --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive); --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border); --color-input: var(--input); --color-ring: var(--ring);
+
+  /* Soft Friendly utilities (bg-surface-soft, text-ink-2, border-line-2, text-accent-600, …) */
+  --color-surface: var(--surface); --color-surface-soft: var(--surface-soft);
+  --color-surface-cool: var(--surface-cool); --color-inset: var(--inset);
+  --color-ink: var(--ink); --color-ink-2: var(--ink-2); --color-ink-3: var(--ink-3);
+  --color-line: var(--line); --color-line-2: var(--line-2); --color-line-3: var(--line-3);
+  --color-accent-50: var(--accent-50); --color-accent-100: var(--accent-100); --color-accent-600: var(--accent-600);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* legacy category tokens — kept so not-yet-migrated pages keep their colors until migrated */
+  --color-category-ideas: #fde68a;
+  --color-category-philosophy: #bbf7d0;
+  --color-category-projects: #bfdbfe;
+  --color-category-health: #fbcfe8;
+  --color-category-misc: #e5e7eb;
+}
+
+/* === Task detail modal entrance — fixes "сначала маленькое, потом увеличивается" === */
+@keyframes modal-overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes modal-content-in {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-overlay-in { animation: modal-overlay-in 120ms ease-out both; }
+.modal-content-in { animation: modal-content-in 180ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* === Inline rename (map title, map card): the field's soft fill fades in === */
+@keyframes soft-fill-in {
+  from { background-color: transparent; }
+}
+.soft-fill-in { background-color: var(--surface-soft); animation: soft-fill-in 200ms ease-out; }
+@media (prefers-reduced-motion: reduce) { .soft-fill-in { animation: none; } }
+
+/* «Удалить» → «Точно удалить?»: the red fill pops in, the bin gives a short shake.
+   Background is !important on the item, so the pop is scale + opacity, not colour. */
+@keyframes confirm-pop {
+  0%   { transform: scale(0.94); opacity: 0.4; }
+  60%  { transform: scale(1.02); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@keyframes confirm-shake {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-14deg); }
+  50% { transform: rotate(10deg); }
+  75% { transform: rotate(-5deg); }
+}
+.confirm-pop { animation: confirm-pop 220ms cubic-bezier(.2,.8,.3,1); }
+.confirm-pop svg { animation: confirm-shake 320ms ease-out 60ms; }
+@media (prefers-reduced-motion: reduce) { .confirm-pop, .confirm-pop svg { animation: none; } }
+
+/* === «Карты»: the dots running round the topic field (mindmap/mapsChase.js) === */
+.maps-chase-dot { position: absolute; left: 0; top: 0; width: 8px; height: 8px; border-radius: 9999px; will-change: transform, opacity; }
+
+/* === Usage dashboard: bar-chart segment animation === */
+@keyframes grow-up {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+.chart-bar-segment {
+  transform-origin: bottom;
+  animation: grow-up 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: filter 0.2s ease;
+}
+.chart-bar-segment:hover { filter: brightness(1.15); }
+
+@layer base {
+  html, body { @apply bg-background text-foreground; font-family: var(--font-sans); }
+  /* Reserve the scrollbar slot on every page so the centered header doesn't
+     shift sideways when switching between short and long tabs. */
+  html { scrollbar-gutter: stable; }
+
+  /* App-wide minimalist scrollbar: invisible track, soft rounded line-token thumb
+     that darkens on hover. Inner containers can opt into a thinner variant with
+     `.scrollbar-soft`. */
+  * { scrollbar-width: thin; scrollbar-color: var(--line-2) transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--line-2);
+    border-radius: 9999px;
+    border: 3px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background-color: var(--line-3); }
+  ::-webkit-scrollbar-corner { background: transparent; }
+
+  /* Dark theme: a bare `border` (no color utility) falls back to currentColor —
+     light text color → a glowing outline. Give it the hairline token instead.
+     (Light mode keeps its current look.) Inside @layer base so any border-*
+     color utility still wins. */
+  .dark *, .dark ::before, .dark ::after { border-color: var(--line-2); }
+}
+
+/* Dark theme: modals sit one step above the page, as cards do (unlayered so
+   it beats the kit's bg-background utility). */
+.dark [data-slot="dialog-content"] { background-color: var(--surface); }
+
+/* Theme switch (lib/theme.js): while the tokens flip, nothing may animate on
+   its own — otherwise each part fades at its own speed and the page flickers. */
+.theme-switching, .theme-switching *, .theme-switching *::before, .theme-switching *::after {
+  transition: none !important;
+}
+/* The switch itself: the new theme fades in over a still picture of the old
+   one — a single calm dissolve. (The old picture stays opaque underneath, so
+   the page never dips through a half-transparent mid-point.) */
+::view-transition-old(root) { animation: none; }
+::view-transition-new(root) {
+  animation: theme-fade-in 360ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes theme-fade-in { from { opacity: 0; } }
+
+/* Override react-swipeable-list overflow:hidden that clips card shadows */
+.swipeable-list {
+  overflow: visible !important;
+}
+
+.swipeable-list-item {
+  overflow: visible !important;
+}
+
+.swipeable-list-item__content {
+  overflow: visible !important;
+}
+
+/* TipTap editor & shared note rich-text formatting */
+.ProseMirror blockquote,
+.note-content blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: var(--ink-2);
+}
+
+.ProseMirror ol,
+.note-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.ProseMirror ul,
+.note-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.ProseMirror li,
+.note-content li {
+  margin-bottom: 0.25rem;
+}
+
+.ProseMirror li p,
+.note-content li p {
+  margin: 0;
+}
+
+/* The shared page renders stored HTML directly: keep empty lines visible,
+   as the editor does. */
+.note-content p:empty::before {
+  content: '\200b';
+}
+
+/* Routine report modal — list/paragraph rendering for the report HTML.
+   Tailwind preflight strips list markers and paragraph margins; restore them
+   locally so the weekly report (<p>/<strong>/<ul>/<li>) reads correctly. */
+.report-content p {
+  margin: 0.5rem 0;
+}
+.report-content p:first-child {
+  margin-top: 0;
+}
+.report-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+.report-content li {
+  margin-bottom: 0.25rem;
+}
+.report-content li p {
+  margin: 0;
+}
+.report-content strong {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Minimalist custom scrollbar — thin, rounded, subtle. Track is invisible; the
+   thumb is a soft line-token pill that darkens on hover. Apply `scrollbar-soft`
+   to any inner scroll container (e.g. the goals horizon list). */
+.scrollbar-soft {
+  scrollbar-width: thin;                          /* Firefox */
+  scrollbar-color: var(--line-3) transparent;     /* thumb / track (Firefox) */
+}
+.scrollbar-soft::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollbar-soft::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-soft::-webkit-scrollbar-thumb {
+  background-color: var(--line-3);
+  border-radius: 9999px;
+}
+.scrollbar-soft::-webkit-scrollbar-thumb:hover {
+  background-color: var(--ink-3);
+}
+.scrollbar-soft::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Swipe-to-delete action background */
+.swipe-action-delete {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 2rem;
+  width: 100%;
+  height: 100%;
+  background-color: var(--danger);
+  border-radius: 16px;
+}
+/* Map thumbnails (MapThumbnail.jsx): dots of CSS-variable colours mixed with
+   the surface — full strength on light, calmer on dark. */
+.mindmap-thumb { --thumb-shape-mix: 100%; }
+.dark .mindmap-thumb { --thumb-shape-mix: 70%; }
+.mindmap-thumb svg { display: block; }
+
+/* Presentation mode: a private note / project / map card the presenter did not
+   choose. Its text is already filler (services/presentation); the card keeps its
+   crisp outline, the content is blurred and it cannot be opened or dragged. */
+.pres-masked {
+  pointer-events: none;
+  user-select: none;
+}
+.pres-masked > * {
+  filter: blur(6px);
+}

@@ -1,0 +1,34 @@
+.video-ink { color: transparent; background: linear-gradient(105deg, var(--ink) 0%, var(--ink) 38%, var(--accent) 68%, var(--accent-600) 100%); background-size: 260% 100%; background-clip: text; animation: video-ink-settle 760ms ease both; }
+.video-cursor { display: inline-block; width: 2px; height: 1em; background: var(--accent); margin-left: 2px; vertical-align: -.1em; animation: video-cursor-blink 900ms step-end infinite; }
+.video-status-done { animation: video-status-fade 1140ms both; }
+@keyframes video-ink-settle { from { background-position: 100% 0; opacity: .3; } to { background-position: 0% 0; opacity: 1; } }
+@keyframes video-cursor-blink { 50% { opacity: 0; } }
+@keyframes video-status-fade { 0%, 78% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .video-ink { animation: none; background: none; color: var(--ink); } .video-cursor { animation: none; } }
+.video-status-active { color: transparent; background: linear-gradient(100deg, var(--ink-3) 40%, var(--surface) 50%, var(--ink-3) 60%); background-size: 280% 100%; background-clip: text; animation: video-status-shimmer 1.8s ease-in-out infinite; }
+@keyframes video-status-shimmer { from { background-position: 100% 0; } to { background-position: 0% 0; } }
+/* Keep streamed and saved video results in the same quiet numbered layout. */
+:is(.ProseMirror, .note-content) blockquote[data-extraction-id] { border: 0; padding: 0 5rem 0 0; margin: 1.5rem 0; font-style: normal; color: var(--ink); }
+:is(.ProseMirror, .note-content) blockquote[data-extraction-id] > :is(p, .node-paragraph:first-child) { font-size: 1.125rem; font-weight: 600; margin: 0 0 1rem; }
+:is(.ProseMirror, .note-content) blockquote[data-extraction-id] > .node-paragraph:first-child p { font-size: 1.125rem; font-weight: 600; margin: 0; }
+.video-live > ol,
+:is(.ProseMirror, .note-content) blockquote[data-extraction-id] > :is(ul, ol) { list-style: none; counter-reset: video-item; padding: 0; margin: 0; }
+.video-live > ol > li,
+:is(.ProseMirror, .note-content) blockquote[data-extraction-id] > :is(ul, ol) > li { position: relative; counter-increment: video-item; padding: 0 0 0 2rem; margin: 0 0 .875rem; font-size: .875rem; line-height: 1.625; }
+.video-live > ol > li::before,
+:is(.ProseMirror, .note-content) blockquote[data-extraction-id] > :is(ul, ol) > li::before { content: counter(video-item, decimal-leading-zero); position: absolute; left: 0; top: .15em; color: var(--ink-3); font-size: .6875rem; font-weight: 400; font-variant-numeric: tabular-nums; user-select: none; }
+:is(.ProseMirror, .note-content) blockquote[data-extraction-id] li p { margin: 0; }
+:is(.ProseMirror, .note-content) blockquote[data-extraction-id] p::before,
+:is(.ProseMirror, .note-content) blockquote[data-extraction-id] p::after { content: none; }
+@media (prefers-reduced-motion: reduce) { .video-status-active { color: var(--ink-3); background: none; animation: none; } }
+
+.video-status { font-size: 11px; white-space: nowrap; }
+.video-live h2 .video-ink { white-space: pre; }
+@media (max-width: 640px) { .video-status { display: none; } .video-live.pr-20 { padding-right: 0; } :is(.ProseMirror, .note-content) blockquote[data-extraction-id] { padding-right: 0; } }
+
+/* Loading placeholder for the video card: one soft wave, cool greys only. */
+.video-skeleton { background: linear-gradient(100deg, var(--inset) 35%, var(--surface-soft) 50%, var(--inset) 65%); background-size: 300% 100%; animation: video-skeleton-wave 1.5s ease-in-out infinite; }
+@keyframes video-skeleton-wave { from { background-position: 100% 0; } to { background-position: 0% 0; } }
+@media (prefers-reduced-motion: reduce) { .video-skeleton { animation: none; } }
+/* Second section of an Instagram result ("On screen"): separate it from the main list. */
+:is(.ProseMirror, .note-content) blockquote[data-extraction-id] > :is(ul, ol) + :is(p, .node-paragraph) { margin-top: 1.5rem; }

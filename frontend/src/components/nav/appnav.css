@@ -1,0 +1,90 @@
+/* Soft-brutalism global navigation chrome. Self-contained — does NOT depend on
+   Tailwind (neobrutalism) or panel.css (calm).
+   See docs/superpowers/specs/2026-05-30-unified-navigation-design.md */
+.appnav {
+  --an-surface:var(--surface);
+  --an-surface-soft:var(--surface-soft);
+  --an-text:var(--ink-2);
+  --an-text-muted:var(--ink-3);
+  --an-border:var(--line);
+  --an-border-2:var(--line-2);
+  --an-divider:var(--line);
+  --an-shadow:var(--shadow-sm);
+  --an-accent-bg:var(--accent-50);
+  --an-accent-text:var(--accent-600);
+  --an-accent-border:var(--accent-100);
+  --an-accent-shadow:var(--shadow-sm);
+  --an-radius:11px;
+  --an-radius-search:11px;
+
+  position:sticky; top:0; z-index:30;
+  background:var(--bg);
+  border-bottom:1px solid var(--an-divider);
+  font-family:"Manrope", -apple-system, system-ui, sans-serif;
+}
+.appnav * { box-sizing:border-box; }
+.appnav-inner { max-width:1024px; margin:0 auto; padding:11px 16px;
+  display:flex; flex-direction:column; gap:11px; }
+
+/* Fixed row height: the 40px menu button exists only on some pages — without
+   this the tabs jump 2px down/up when switching tabs. */
+.appnav-navrow { display:flex; align-items:center; gap:10px; min-height:40px; }
+.appnav-logo { height:36px; flex:0 0 auto; padding:0; cursor:pointer;
+  border:none; background:transparent; box-shadow:none;
+  display:flex; align-items:center; transition:transform .1s ease; }
+.appnav-logo:active { transform:scale(0.9); }
+.appnav-logo .sb-logo { height:100%; width:auto; }
+
+.appnav-tabs { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.appnav-tab { font:inherit; font-weight:600; font-size:13px; line-height:1.5; cursor:pointer;
+  display:inline-flex; align-items:center; gap:7px; white-space:nowrap;
+  color:var(--an-text); background:var(--an-surface);
+  border:1px solid var(--an-border); border-radius:var(--an-radius);
+  padding:7px 12px; box-shadow:var(--an-shadow);
+  transition:background .15s, color .15s, transform .1s ease, box-shadow .1s ease; }
+.appnav-tab:hover { background:var(--an-surface-soft); }
+.appnav-tab:active { transform:translateY(1px); }
+.appnav-tab.on { background:var(--an-accent-bg); color:var(--an-accent-text);
+  border-color:var(--an-accent-border); box-shadow:var(--an-accent-shadow); }
+.appnav-tab.on:active { box-shadow:none; }
+.appnav-tab svg { flex:0 0 auto; }
+
+.appnav-controls { display:flex; align-items:center; gap:10px; }
+.appnav-search { flex:1; display:flex; align-items:center; gap:10px;
+  background:var(--an-surface-soft); border:1px solid var(--an-border);
+  border-radius:var(--an-radius-search); padding:0 14px; height:40px; }
+.appnav-search-ic { color:var(--an-text-muted); flex:0 0 auto; }
+.appnav-search input { font:inherit; font-size:14px; flex:1; min-width:0;
+  border:none; outline:none; background:transparent; color:var(--an-text); }
+.appnav-search input::placeholder { color:var(--an-text-muted); }
+.appnav-search:focus-within { border-color:var(--an-text-muted); }
+.appnav-search-clear { font:inherit; cursor:pointer; border:none; background:transparent;
+  color:var(--an-text-muted); font-size:18px; line-height:1; padding:0 2px;
+  transition:transform .1s ease; }
+.appnav-search-clear:active { transform:scale(0.82); }
+
+.appnav-iconbtn { width:40px; height:40px; flex:0 0 auto; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  color:var(--an-text); background:var(--an-surface);
+  border:1px solid var(--an-border); border-radius:var(--an-radius);
+  box-shadow:var(--an-shadow);
+  transition:background .15s, transform .1s ease, box-shadow .1s ease; }
+.appnav-iconbtn { position:relative; }
+.appnav-diskring { position:absolute; inset:-1px; width:calc(100% + 2px); height:calc(100% + 2px);
+  pointer-events:none; overflow:visible; }
+.appnav-diskring path { fill:none; stroke-width:1.5; stroke-linecap:round; transition:stroke-dasharray .6s ease; }
+.appnav-iconbtn:hover { background:var(--an-surface-soft); }
+.appnav-iconbtn:active { transform:translateY(1px); }
+
+.appnav-menu-wrap { position:relative; flex:0 0 auto; margin-left:auto; }
+
+/* mobile: hide tab labels — icon-only, navigation stays on top */
+@media (max-width:640px) {
+  .appnav-tab-label { display:none; }
+  .appnav-tab { padding:7px 9px; }
+  .appnav-inner { padding:10px 12px; }
+}
+
+/* Dark theme: the logo PNG has its own off-white square — show it as a
+   rounded app-icon tile instead of a hard-edged patch. */
+

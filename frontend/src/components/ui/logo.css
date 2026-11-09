@@ -1,0 +1,17 @@
+/* Brand mark colours (see logo.jsx). The gradient is the logo itself, so it
+   keeps its own hues instead of the teal accent; dark mode brightens them so
+   the violet doesn't sink into graphite. */
+:root {
+  --sb-logo-g1: #c026d3;
+  --sb-logo-g2: #8b5cf6;
+  --sb-logo-g3: #22d3ee;
+  --sb-logo-tile: #f6f7f1;
+}
+.dark {
+  --sb-logo-g1: #e879f9;
+  --sb-logo-g2: #a78bfa;
+  --sb-logo-g3: #67e8f9;
+  --sb-logo-tile: var(--surface-soft);
+}
+.sb-logo { display: block; aspect-ratio: 1; overflow: visible; }
+.sb-logo-tile { fill: var(--sb-logo-tile); }
