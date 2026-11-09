@@ -19,19 +19,13 @@ A server here means a computer you rent on the internet that stays on around the
 
 ## What you need
 
-1. **Claude Code.** This is Claude that can work with files and programs on your computer. It will walk you through the installation. To get it, open the Terminal app (a window for typing commands; on a Mac it's in Applications → Utilities) and paste:
-
-   ```bash
-   curl -fsSL https://claude.ai/install.sh | bash
-   ```
-
-   On Windows, open PowerShell and paste `irm https://claude.ai/install.ps1 | iex`. When it finishes, close the window, open it again, type `claude` and press Enter. Claude will ask you to sign in to your account.
+1. **The Claude app.** Download it from [claude.ai/download](https://claude.ai/download), install it and sign in. You need a paid Claude plan. In the app, click **Code** at the top of the sidebar: this is the part of Claude that can install programs on your computer, and it will walk you through the installation.
 
 2. **The Claude extension for Chrome.** With it, Claude opens the right websites for you and shows you where to click. Install it from [claude.com/claude-for-chrome](https://claude.com/claude-for-chrome). The extension only works in Google Chrome and on paid Claude plans. You can install without it too: Claude will send links in the chat and you open them yourself.
 
 ## Install on a server
 
-Open Claude Code and paste the whole text from the block below. Claude will then tell you what to do, one step at a time.
+Open the Code tab of the Claude app and paste the whole text from the block below. Claude will then tell you what to do, one step at a time.
 
 Only you enter passwords, payment details and keys, and Claude doesn't see them. That's why it will sometimes ask you to type something yourself and then write "done".
 
@@ -84,7 +78,8 @@ Steps:
    ssh -t root@SERVER_IP "apt-get update -y && apt-get install -y git curl && (git clone https://github.com/kegfire-ship-it/second-brain-notes /opt/second-brain-notes || git -C /opt/second-brain-notes pull) && bash /opt/second-brain-notes/install.sh"
 
    Explain in advance:
-   - open a new Terminal window (PowerShell on Windows), paste the command, press Enter;
+   - how to open Terminal, a window for typing commands (on a Mac it's in Applications,
+     then Utilities; on Windows use PowerShell), then paste the command and press Enter;
    - if it asks about a fingerprint, type yes;
    - then enter the server password; nothing appears while typing, and that's expected;
    - next the installer asks for the Gemini key and the Apify token (which can be
@@ -98,8 +93,12 @@ Steps:
 
 7. Connect to Claude. At the end of the installation, a command starting with
    claude mcp add appeared on the screen. Explain that it gives Claude access to my
-   notes. I run it myself in a regular Terminal window and don't paste it in the chat.
-   Then check: ask me to start a new Claude Code session and ask what notes I have.
+   notes. I run it myself in Terminal on my own computer and don't paste it in the chat.
+   I use the Claude app, so the claude command may be missing from Terminal. If I get
+   "command not found", first give me the one-line install command from
+   https://code.claude.com/docs/en/quickstart for my system, then have me close and
+   reopen Terminal and run the claude mcp add command again.
+   Then check: ask me to start a new session in the Code tab and ask what notes I have.
 
 8. Tell me that the notes are stored on the server in /opt/second-brain-notes/data
    and that the same command from step 5 updates the app.
@@ -107,7 +106,7 @@ Steps:
 
 ## Install on your computer
 
-Works on Mac and Linux. Open Claude Code and paste:
+Works on Mac and Linux. Open the Code tab of the Claude app and paste:
 
 ```text
 Help me install the Second Brain Notes app on this computer.
@@ -119,7 +118,7 @@ Only I enter keys and passwords, so don't ask me to send them in the chat.
    are installed. If Node.js is missing, open https://nodejs.org and tell me what to
    download and install.
 2. Open https://aistudio.google.com/apikey so I can create a free Gemini key and copy it.
-3. Ask me to open a separate Terminal window and run:
+3. Tell me how to open Terminal, a window for typing commands, and ask me to run:
    bash ~/second-brain-notes/install-local.sh
    Warn me that it will ask for the key and ask me to choose a password, and that
    nothing appears on screen while typing.
@@ -131,4 +130,4 @@ Only I enter keys and passwords, so don't ask me to send them in the chat.
 
 Show Claude the error text and ask what to do. Don't show keys or passwords.
 
-The Claude connection works in Claude Code. It won't appear in the regular chat on claude.ai.
+The Claude connection works in the Code tab of the Claude app. It won't appear in the regular chat on claude.ai.
