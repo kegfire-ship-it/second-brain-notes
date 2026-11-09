@@ -124,7 +124,23 @@ Only I enter keys and passwords, so don't ask me to send them in the chat.
    nothing appears on screen while typing.
 4. Open http://localhost:3210 for me. Three starter notes will be waiting there: help
    me try the first one.
+5. Connect to Claude. At the end of the installation, a command starting with
+   claude mcp add appeared in Terminal. Explain that it gives Claude access to my
+   notes. I run it myself in Terminal and don't paste it in the chat.
+   I use the Claude app, so the claude command may be missing from Terminal. If I get
+   "command not found", first give me the one-line install command from
+   https://code.claude.com/docs/en/quickstart for my system, then have me close and
+   reopen Terminal and run the claude mcp add command again.
+   Then check: ask me to start a new session in the Code tab and ask what notes I have.
 ```
+
+## Connect your notes to Claude
+
+Once connected, Claude can work with your notes for you. You can write "find my notes about marketing", "summarize what I saved this month" or "save this as a new note" in the Code tab of the Claude app.
+
+Claude guides you through this at the end of the installation. It's one line that starts with `claude mcp add`, which the installer shows in Terminal when it finishes. The line tells the Claude app where your notes are and includes a private key that lets it in. You only run it once on each computer.
+
+Run that line in Terminal yourself and don't paste it into the chat or show it to anyone, because it gives access to your notes. Then start a new session in the Code tab and write "What notes do I have?" to check that it works.
 
 ## If something goes wrong
 
